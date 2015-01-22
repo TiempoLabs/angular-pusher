@@ -85,6 +85,14 @@ angular.module('doowb.angular-pusher', [])
   function ($rootScope, $q, PusherService) {
     return {
 
+      subscribeConnection: function(eventName, callback) {
+        PusherService.then(function (pusher) {
+          pusher.connection.bind(eventName, function() {
+            if (callback) callback();
+          });
+        })
+      },
+
       subscribe: function (channelName, eventName, callback) {
         var channelDeferred = $q.defer()
         PusherService.then(function (pusher) {
